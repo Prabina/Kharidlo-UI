@@ -1,7 +1,9 @@
-package com.ecommerce.kharidlo_ui;
+package com.ecommerce.kharidlo_ui.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.ecommerce.kharidlo_ui.R;
 
 public class MainActivity extends AppCompatActivity {
 
