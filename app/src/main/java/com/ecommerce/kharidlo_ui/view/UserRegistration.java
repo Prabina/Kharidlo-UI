@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.User;
@@ -45,11 +46,15 @@ public class UserRegistration extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     System.out.print(response.message());
+                    Toast toast = Toast.makeText(getApplicationContext(), "User Registered Successfully!", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
 
                 @Override
                 public void onFailure(Call<Integer> call, Throwable t) {
                     System.out.print(t.fillInStackTrace());
+                    Toast toast = Toast.makeText(getApplicationContext(), "User Registration failed!", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             });
         }
