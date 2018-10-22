@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitManager {
 
     private static Retrofit retrofit = null;
-    private static final String baseUrl = "https://rare-skunk-31.localtunnel.me/";
+    private static final String baseUrl = "https://lazy-owl-78.localtunnel.me";
 
     public static Retrofit getClient() {
         if (retrofit==null) {

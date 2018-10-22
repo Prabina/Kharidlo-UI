@@ -1,13 +1,24 @@
 package com.ecommerce.kharidlo_ui.modelview;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
+import com.ecommerce.kharidlo_ui.model.AuthenticationCredentials;
+import com.ecommerce.kharidlo_ui.remote.ILoginUserApi;
+import com.ecommerce.kharidlo_ui.remote.RetrofitManager;
 
-public class LoginViewModel extends ViewModel {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
 
-    public String login(String username, String password) {
+public class LoginViewModel {
 
-        return "login success.";
+    private ILoginUserApi iLoginUserApi;
+
+    public LoginViewModel(){
+        Retrofit retrofit = RetrofitManager.getClient();
+        iLoginUserApi = retrofit.create(ILoginUserApi.class);
     }
 
+    public void login(AuthenticationCredentials authenticationCredentials, Callback<Object> callback) {
+        Call<Object> response = iLoginUserApi.login(authenticationCredentials);
+        response.enqueue(callback);
+    }
 }

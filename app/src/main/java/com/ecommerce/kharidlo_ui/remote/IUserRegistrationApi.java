@@ -9,5 +9,4 @@ import retrofit2.http.POST;
 public interface IUserRegistrationApi {
     @POST("register")
     Call<Integer> register(@Body User user);
-
 }
