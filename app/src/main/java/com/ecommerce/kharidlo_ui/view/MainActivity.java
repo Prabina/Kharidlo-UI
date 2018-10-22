@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ecommerce.kharidlo_ui.R;
+import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
 
