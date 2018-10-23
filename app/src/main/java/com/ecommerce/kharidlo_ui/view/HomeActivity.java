@@ -31,6 +31,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        SharedPreferenceUtil.setContext(getApplicationContext());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,6 +41,9 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        if(SharedPreferenceUtil.isAdmin()) {
+            navigationView.getMenu().findItem(R.id.nav_create_product).setVisible(true);
+        }
 
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.fragment_container, new HomeFragment());
@@ -50,17 +54,14 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void checkLoginState() {
-        SharedPreferenceUtil.setContext(getApplicationContext());
         if(!SharedPreferenceUtil.isLoggedIn()) {
             //TODO: change MainActivity to LoginActivity
             Intent loginActivity = new Intent(HomeActivity.this, MainActivity.class);
             startActivity(loginActivity);
         }
-        if(SharedPreferenceUtil.isAdmin()) {
-            navigationView.getMenu().clear(); //clear old inflated items.
-            navigationView.inflateMenu(R.menu.activity_home_drawer_admin); //inflate new items.
-        }
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -100,6 +101,7 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        //TODO: add logout action here
         if (id == R.id.nav_logout) {
         }
 
@@ -125,7 +127,6 @@ public class HomeActivity extends AppCompatActivity
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

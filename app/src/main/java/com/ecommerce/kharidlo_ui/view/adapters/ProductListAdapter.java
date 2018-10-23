@@ -1,8 +1,5 @@
 package com.ecommerce.kharidlo_ui.view.adapters;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +9,15 @@ import android.widget.TextView;
 
 import com.ecommerce.kharidlo_ui.R;
 
+import java.util.List;
+
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private List<String> values;
+    private boolean isList;
+
+    public void setLayoutType(boolean isList) {
+        this.isList = isList;
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -43,8 +47,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ProductListAdapter(List<String> myDataset) {
+    public ProductListAdapter(List<String> myDataset,boolean isList) {
         values = myDataset;
+        this.isList = isList;
     }
 
     // Create new views (invoked by the layout manager)
@@ -54,10 +59,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         // create a new view
         LayoutInflater inflater = LayoutInflater.from(
                 parent.getContext());
-        View v =
-                inflater.inflate(R.layout.product_list, parent, false);
+        View view;
+
+        if(isList){
+            view = inflater.inflate(R.layout.product_list, parent, false);
+        }else {
+            view = inflater.inflate(R.layout.product_grid, parent, false);
+        }
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(view);
         return vh;
     }
 
@@ -66,6 +76,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+
         final String name = values.get(position);
         holder.txtHeader.setText(name);
         holder.txtHeader.setOnClickListener(new OnClickListener() {

@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.view.adapters.ProductListAdapter;
@@ -32,7 +33,11 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private GridLayoutManager gridLayoutManager;
     private ProductListAdapter productListAdapter;
+    private boolean isList = true;
+    private ImageView listViewButton;
+    private ImageView gridViewButton;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -69,16 +74,53 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setListGridLayoutActions(view);
+
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        gridLayoutManager = new GridLayoutManager(getActivity(),2);
+
+        if(isList) {
+            recyclerView.setLayoutManager(linearLayoutManager);
+        }else {
+            recyclerView.setLayoutManager(gridLayoutManager);
+        }
+
+
         List<String> input = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             input.add("Test" + i);
         }
-        productListAdapter = new ProductListAdapter(input);
+
+        productListAdapter = new ProductListAdapter(input, isList);
         recyclerView.setAdapter(productListAdapter);
+    }
+
+    private void setListGridLayoutActions(View view){
+        listViewButton = (ImageView) view.findViewById(R.id.list_button);
+        gridViewButton = (ImageView) view.findViewById(R.id.grid_button);
+
+        View.OnClickListener listGridButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isList = !isList;
+                resetProductRecyclerView();
+            }
+        };
+
+        listViewButton.setOnClickListener(listGridButtonListener);
+        gridViewButton.setOnClickListener(listGridButtonListener);
+    }
+
+    private void resetProductRecyclerView(){
+        if(isList){
+            recyclerView.setLayoutManager(linearLayoutManager);
+        }else {
+            recyclerView.setLayoutManager(gridLayoutManager);
+        }
+        productListAdapter.setLayoutType(isList);
+        recyclerView.requestLayout();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

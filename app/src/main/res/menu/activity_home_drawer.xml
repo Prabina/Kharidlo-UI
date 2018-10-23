@@ -8,6 +8,10 @@
             android:id="@+id/nav_home"
             android:title="Home" />
         <item
+            android:id="@+id/nav_create_product"
+            android:visible="false"
+            android:title="Create Product" />
+        <item
             android:id="@+id/nav_logout"
             android:title="Logout" />
     </group>
