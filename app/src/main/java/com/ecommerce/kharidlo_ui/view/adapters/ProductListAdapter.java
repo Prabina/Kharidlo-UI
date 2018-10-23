@@ -15,25 +15,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private List<String> values;
     private boolean isList;
 
-    public void setLayoutType(boolean isList) {
+    public ProductListAdapter(List<String> myDataset, boolean isList) {
+        values = myDataset;
         this.isList = isList;
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView txtHeader;
-        public TextView txtFooter;
-        public View layout;
-
-        public ViewHolder(View v) {
-            super(v);
-            layout = v;
-            txtHeader = (TextView) v.findViewById(R.id.name);
-            txtFooter = (TextView) v.findViewById(R.id.price);
-        }
+    public void setLayoutType(boolean isList) {
+        this.isList = isList;
     }
 
     public void add(int position, String item) {
@@ -46,53 +34,95 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         notifyItemRemoved(position);
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public ProductListAdapter(List<String> myDataset,boolean isList) {
-        values = myDataset;
-        this.isList = isList;
-    }
-
-    // Create new views (invoked by the layout manager)
     @Override
     public ProductListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
-        // create a new view
-        LayoutInflater inflater = LayoutInflater.from(
-                parent.getContext());
+                                                            int viewType) {
+        ViewHolder viewHolder = null;
         View view;
 
-        if(isList){
-            view = inflater.inflate(R.layout.product_list, parent, false);
-        }else {
-            view = inflater.inflate(R.layout.product_grid, parent, false);
+        if (isList) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list, parent, false);
+            viewHolder = new ViewHolderList(view);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_grid, parent, false);
+            viewHolder = new ViewHolderGrid(view);
         }
-        // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+
+        return viewHolder;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
+
+        if (isList) {
+            holder = (ViewHolderList) holder;
+        } else {
+            holder = (ViewHolderGrid) holder;
+        }
 
         final String name = values.get(position);
-        holder.txtHeader.setText(name);
-        holder.txtHeader.setOnClickListener(new OnClickListener() {
+        holder.name.setText(name);
+        holder.name.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: add to cart action to be implemented
             }
         });
 
-        holder.txtFooter.setText("Footer: " + name);
+        holder.price.setText("Change this to price");
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemViewType(int position) {
+        return isList?0:1;
+    }
+
     @Override
     public int getItemCount() {
         return values.size();
     }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView name;
+        public TextView price;
+        public View layout;
+
+        public ViewHolder(View v) {
+            super(v);
+            layout = v;
+            name = (TextView) v.findViewById(R.id.name);
+            price = (TextView) v.findViewById(R.id.price);
+        }
+    }
+
+    public class ViewHolderList extends ViewHolder {
+
+        public TextView name;
+        public TextView price;
+        public View layout;
+
+        public ViewHolderList(View v) {
+            super(v);
+            layout = v;
+            name = (TextView) v.findViewById(R.id.name);
+            price = (TextView) v.findViewById(R.id.price);
+        }
+    }
+
+    public class ViewHolderGrid extends ViewHolder {
+        public TextView name;
+        public TextView price;
+        public View layout;
+
+        public ViewHolderGrid(View v) {
+            super(v);
+            layout = v;
+            name = (TextView) v.findViewById(R.id.name);
+            price = (TextView) v.findViewById(R.id.price);
+        }
+    }
+
 
 }

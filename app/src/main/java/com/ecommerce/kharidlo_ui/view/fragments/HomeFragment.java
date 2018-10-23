@@ -79,15 +79,15 @@ public class HomeFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
-        if(isList) {
+        if (isList) {
             recyclerView.setLayoutManager(linearLayoutManager);
-        }else {
+        } else {
             recyclerView.setLayoutManager(gridLayoutManager);
         }
 
-
+        //TODO: Change this with product api response
         List<String> input = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             input.add("Test" + i);
@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(productListAdapter);
     }
 
-    private void setListGridLayoutActions(View view){
+    private void setListGridLayoutActions(View view) {
         listViewButton = (ImageView) view.findViewById(R.id.list_button);
         gridViewButton = (ImageView) view.findViewById(R.id.grid_button);
 
@@ -113,10 +113,10 @@ public class HomeFragment extends Fragment {
         gridViewButton.setOnClickListener(listGridButtonListener);
     }
 
-    private void resetProductRecyclerView(){
-        if(isList){
+    private void resetProductRecyclerView() {
+        if (isList) {
             recyclerView.setLayoutManager(linearLayoutManager);
-        }else {
+        } else {
             recyclerView.setLayoutManager(gridLayoutManager);
         }
         productListAdapter.setLayoutType(isList);
