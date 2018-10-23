@@ -1,10 +1,12 @@
 package com.ecommerce.kharidlo_ui.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,15 +17,23 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
+import com.ecommerce.kharidlo_ui.model.AuthenticationCredentials;
 import com.ecommerce.kharidlo_ui.modelview.LoginViewModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private Button signUpButton;
+    private LoginViewModel loginViewModel = new LoginViewModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        signUpButton = (Button) findViewById(R.id.sign_up_button);
 
         Button mEmailLogInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailLogInButton.setOnClickListener(new OnClickListener() {
@@ -59,45 +59,59 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        signUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSignUpBtnClick(v);
+            }
+        });
     }
 
 
     private void attemptLogin() {
-        hideKeyBoard();
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
+        //TODO: Validate email and password
+        loginUser(email, password);
+    }
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
+    private void loginUser(String email, String password) {
+        AuthenticationCredentials authenticationCredentials = new AuthenticationCredentials(email, password);
+        try{
+            loginViewModel.login(authenticationCredentials, new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    System.out.println("*************");
+                    System.out.print(response.message());
+                    if (response.code() == 403) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Oops! Invalid username or password", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else if (response.code() == 202) {
+                        navigateToHomeScreen();
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    System.out.print(t.fillInStackTrace());
+                    Toast toast = Toast.makeText(getApplicationContext(), "Oops! Login failed :(", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
         }
+        catch (Exception ex){
+            System.out.print(ex.fillInStackTrace());
+        }
+    }
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        }
+    private void navigateToHomeScreen() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private boolean isEmailValid(String email) {
@@ -115,6 +129,11 @@ public class LoginActivity extends AppCompatActivity {
         } catch (Exception e) {
 
         }
+    }
+
+    public void onSignUpBtnClick(View view) {
+        Intent intent = new Intent(LoginActivity.this, UserRegistration.class);
+        startActivity(intent);
     }
 
 }
