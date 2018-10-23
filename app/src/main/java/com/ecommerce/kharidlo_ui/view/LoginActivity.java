@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.AuthenticationCredentials;
 import com.ecommerce.kharidlo_ui.modelview.LoginViewModel;
+import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
+import com.google.gson.internal.LinkedTreeMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,12 +85,16 @@ public class LoginActivity extends AppCompatActivity {
             loginViewModel.login(authenticationCredentials, new Callback<Object>() {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
-                    System.out.println("*************");
                     System.out.print(response.message());
-                    if (response.code() == 403) {
+                    if (response.code() == 403 || response.code() == 404) {
                         Toast toast = Toast.makeText(getApplicationContext(), "Oops! Invalid username or password", Toast.LENGTH_SHORT);
                         toast.show();
                     } else if (response.code() == 202) {
+                        String token = (String) ((LinkedTreeMap) response.body()).get("token");
+                        String userRole = (String) ((LinkedTreeMap) response.body()).get("role");
+                        SharedPreferenceUtil.setLoggedIn(true);
+                        SharedPreferenceUtil.setTOKEN(token);
+                        SharedPreferenceUtil.setUserRole(userRole);
                         navigateToHomeScreen();
                     } else {
                         Toast toast = Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT);
@@ -110,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToHomeScreen() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 

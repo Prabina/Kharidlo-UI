@@ -1,5 +1,6 @@
 package com.ecommerce.kharidlo_ui.view;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
@@ -53,15 +55,21 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    private void logoutUser() {
+        SharedPreferenceUtil.clearUserData();
+        Toast toast = Toast.makeText(getApplicationContext(), "You have been successfully logged out!", Toast.LENGTH_SHORT);
+        toast.show();
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     private void checkLoginState() {
         if(!SharedPreferenceUtil.isLoggedIn()) {
-            //TODO: change MainActivity to LoginActivity
-            Intent loginActivity = new Intent(HomeActivity.this, MainActivity.class);
+            Intent loginActivity = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(loginActivity);
         }
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -98,13 +106,6 @@ public class HomeActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        //TODO: add logout action here
-        if (id == R.id.nav_logout) {
-        }
-
         Fragment fragment = null;
         Class fragmentClass;
         switch(item.getItemId()) {
@@ -114,6 +115,9 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_create_product:
                 fragmentClass = CreateProductFragment.class;
                 break;
+            case R.id.nav_logout:
+                logoutUser();
+                return false;
             default:
                 fragmentClass = HomeFragment.class;
         }
