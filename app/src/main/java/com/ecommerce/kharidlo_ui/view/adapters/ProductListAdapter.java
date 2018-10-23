@@ -8,14 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ecommerce.kharidlo_ui.R;
+import com.ecommerce.kharidlo_ui.model.Product;
 
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
-    private List<String> values;
+    private List<Product> values;
     private boolean isList;
 
-    public ProductListAdapter(List<String> myDataset, boolean isList) {
+    public ProductListAdapter(List<Product> myDataset, boolean isList) {
         values = myDataset;
         this.isList = isList;
     }
@@ -24,10 +25,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.isList = isList;
     }
 
-    public void add(int position, String item) {
-        values.add(position, item);
-        notifyItemInserted(position);
-    }
+//    public void add(List<Product> item) {
+//        values.addAll(item);
+//    }
 
     public void remove(int position) {
         values.remove(position);
@@ -61,7 +61,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder = (ViewHolderGrid) holder;
         }
 
-        final String name = values.get(position);
+        final String name = values.get(position).getTitle();
         holder.name.setText(name);
         holder.name.setOnClickListener(new OnClickListener() {
             @Override
@@ -70,7 +70,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         });
 
-        holder.price.setText("Change this to price");
+        holder.price.setText((int) values.get(position).getPrice());
     }
 
     @Override

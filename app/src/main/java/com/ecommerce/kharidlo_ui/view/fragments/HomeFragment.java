@@ -12,10 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ecommerce.kharidlo_ui.R;
+import com.ecommerce.kharidlo_ui.model.Product;
 import com.ecommerce.kharidlo_ui.view.adapters.ProductListAdapter;
+import com.ecommerce.kharidlo_ui.viewmodel.ProductSearchViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,9 @@ public class HomeFragment extends Fragment {
     private boolean isList = true;
     private ImageView listViewButton;
     private ImageView gridViewButton;
+    private ImageView searchButton;
+    private EditText searchEditText;
+    List<Product> productList;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -76,6 +82,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setListGridLayoutActions(view);
+        setSearchButtonAction(view);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -88,12 +95,11 @@ public class HomeFragment extends Fragment {
         }
 
         //TODO: Change this with product api response
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            input.add("Test" + i);
-        }
-
-        productListAdapter = new ProductListAdapter(input, isList);
+        productList = new ArrayList<>();
+//        for (int i = 0; i < 100; i++) {
+//            input.add("Test" + i);
+//        }
+        productListAdapter = new ProductListAdapter(productList, isList);
         recyclerView.setAdapter(productListAdapter);
     }
 
@@ -111,6 +117,19 @@ public class HomeFragment extends Fragment {
 
         listViewButton.setOnClickListener(listGridButtonListener);
         gridViewButton.setOnClickListener(listGridButtonListener);
+    }
+
+    private void setSearchButtonAction(View view) {
+        searchButton = (ImageView) view.findViewById(R.id.search_button);
+        searchEditText = view.findViewById(R.id.search_key);
+        View.OnClickListener searchButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductSearchViewModel searchViewModel = new ProductSearchViewModel(HomeFragment.this);
+                searchViewModel.search(searchEditText.getText().toString());
+            }
+        };
+        searchButton.setOnClickListener(searchButtonListener);
     }
 
     private void resetProductRecyclerView() {
@@ -160,6 +179,16 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void productsReceived(List<Product> products) {
+        if(products != null) {
+            if (!productList.isEmpty()) {
+                productList.clear();
+            }
+            productList = products;
+            productListAdapter.notifyDataSetChanged();
+        }
     }
 
 }

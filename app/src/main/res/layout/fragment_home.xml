@@ -19,6 +19,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/search_key"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
@@ -29,6 +30,7 @@
                 android:imeOptions="actionSearch" />
 
             <ImageView
+                android:id="@+id/search_button"
                 android:layout_width="0dp"
                 android:layout_weight="0.1"
                 android:layout_height="wrap_content"
