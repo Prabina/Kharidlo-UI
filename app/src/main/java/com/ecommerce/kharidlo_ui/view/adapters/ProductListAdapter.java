@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.Product;
+import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
 import com.ecommerce.kharidlo_ui.view.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -22,11 +23,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private List<Product> values;
     private boolean isList;
     private Context context;
+    private boolean isAdmin;
 
     public ProductListAdapter(List<Product> myDataset, boolean isList, Context context) {
         values = myDataset;
         this.isList = isList;
         this.context = context;
+        isAdmin = SharedPreferenceUtil.isAdmin();
     }
 
     public void setLayoutType(boolean isList) {
@@ -69,6 +72,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder = (ViewHolderGrid) holder;
         }
 
+        if(isAdmin) {
+            holder.addToCart.setVisibility(View.INVISIBLE);
+        }
+
         final String name = values.get(position).getTitle();
         holder.name.setText(name);
         holder.name.setOnClickListener(new OnClickListener() {
@@ -108,6 +115,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public TextView price;
         public ImageView image;
         public View layout;
+        public ImageView addToCart;
 
         public ViewHolder(View v) {
             super(v);
@@ -123,6 +131,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             name = (TextView) v.findViewById(R.id.name);
             price = (TextView) v.findViewById(R.id.price);
             image = (ImageView) v.findViewById(R.id.icon);
+            addToCart = (ImageView) v.findViewById(R.id.add_to_cart);
         }
     }
 
@@ -134,6 +143,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             name = (TextView) v.findViewById(R.id.name);
             price = (TextView) v.findViewById(R.id.price);
             image = (ImageView) v.findViewById(R.id.icon);
+            addToCart = (ImageView) v.findViewById(R.id.add_to_cart);
         }
     }
 

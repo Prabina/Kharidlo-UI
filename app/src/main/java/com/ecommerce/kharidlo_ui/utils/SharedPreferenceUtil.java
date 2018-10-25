@@ -36,7 +36,7 @@ public class SharedPreferenceUtil {
 
     public static boolean isAdmin() {
         //TODO: change boolean value to false
-        return appPreference.getBoolean(IS_ADMIN, true);
+        return appPreference.getBoolean(IS_ADMIN, false);
     }
 
     public static void setIfAdmin(boolean isAdmin) {
