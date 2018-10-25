@@ -17,16 +17,19 @@ import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
 import com.ecommerce.kharidlo_ui.view.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
-    private List<Product> values;
+    private List<Product> values = new ArrayList<>();
     private boolean isList;
     private Context context;
     private boolean isAdmin;
 
     public ProductListAdapter(List<Product> myDataset, boolean isList, Context context) {
-        values = myDataset;
+        if(myDataset != null) {
+            values = myDataset;
+        }
         this.isList = isList;
         this.context = context;
         isAdmin = SharedPreferenceUtil.isAdmin();
@@ -37,7 +40,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     public void add(List<Product> item) {
-        values = item;
+        if(item != null) {
+            values = item;
+        }
     }
 
     public void remove(int position) {

@@ -1,5 +1,7 @@
 package com.ecommerce.kharidlo_ui.view.fragments;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,6 +46,7 @@ public class HomeFragment extends Fragment {
     private ImageView searchButton;
     private EditText searchEditText;
     List<Product> productList;
+    private ProductSearchViewModel productSearchViewModel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -98,6 +101,8 @@ public class HomeFragment extends Fragment {
         productList = new ArrayList<>();
         productListAdapter = new ProductListAdapter(productList, isList, getActivity());
         recyclerView.setAdapter(productListAdapter);
+
+        loadProducts();
     }
 
     private void setListGridLayoutActions(View view) {
@@ -122,8 +127,7 @@ public class HomeFragment extends Fragment {
         View.OnClickListener searchButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProductSearchViewModel searchViewModel = new ProductSearchViewModel(HomeFragment.this);
-                searchViewModel.search(searchEditText.getText().toString());
+                productSearchViewModel.search(searchEditText.getText().toString());
             }
         };
         searchButton.setOnClickListener(searchButtonListener);
@@ -178,15 +182,17 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void productsReceived(List<Product> products) {
-        if(products != null) {
-            if (!productList.isEmpty()) {
-                productList.clear();
+
+    public void loadProducts(){
+        productSearchViewModel = ViewModelProviders.of(this).get(ProductSearchViewModel.class);
+        productSearchViewModel.getProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(@Nullable List<Product> products) {
+                HomeFragment.this.productList = products;
+                productListAdapter.add(products);
+                productListAdapter.notifyDataSetChanged();
             }
-            productList = products;
-            productListAdapter.add(productList);
-            productListAdapter.notifyDataSetChanged();
-        }
+        });
     }
 
 }
