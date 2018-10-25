@@ -1,6 +1,9 @@
 package com.ecommerce.kharidlo_ui.view.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.Product;
+import com.ecommerce.kharidlo_ui.view.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -17,10 +21,12 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private List<Product> values;
     private boolean isList;
+    private Context context;
 
-    public ProductListAdapter(List<Product> myDataset, boolean isList) {
+    public ProductListAdapter(List<Product> myDataset, boolean isList, Context context) {
         values = myDataset;
         this.isList = isList;
+        this.context = context;
     }
 
     public void setLayoutType(boolean isList) {
@@ -28,7 +34,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     public void add(List<Product> item) {
-        values.addAll(item);
+        values = item;
     }
 
     public void remove(int position) {
@@ -37,10 +43,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     @Override
-    public ProductListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+    public ProductListAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent,
+                                                            final int viewType) {
         ViewHolder viewHolder = null;
-        View view;
+        final View view;
 
         if (isList) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list, parent, false);
@@ -72,8 +78,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         });
 
-        holder.price.setText(Double.toString(values.get(position).getPrice()));
+        holder.price.setText(String.valueOf(values.get(position).getPrice()));
         Picasso.with(holder.image.getContext()).load(values.get(position).getImageUrl()).into(holder.image);
+
+        holder.itemView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Ad", "clicked >> ");
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                intent.putExtra("product", values.get(position));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

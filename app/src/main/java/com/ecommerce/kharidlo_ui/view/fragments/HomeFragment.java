@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment {
 
         //TODO: Change this with product api response
         productList = new ArrayList<>();
-        productListAdapter = new ProductListAdapter(productList, isList);
+        productListAdapter = new ProductListAdapter(productList, isList, getActivity());
         recyclerView.setAdapter(productListAdapter);
     }
 
@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment {
                 productList.clear();
             }
             productList = products;
-            productListAdapter.add(products);
+            productListAdapter.add(productList);
             productListAdapter.notifyDataSetChanged();
         }
     }

@@ -1,6 +1,8 @@
 package com.ecommerce.kharidlo_ui.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int id;
     private String title;
     private String description;
