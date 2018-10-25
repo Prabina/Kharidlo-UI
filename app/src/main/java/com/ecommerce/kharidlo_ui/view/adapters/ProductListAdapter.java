@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -25,9 +27,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.isList = isList;
     }
 
-//    public void add(List<Product> item) {
-//        values.addAll(item);
-//    }
+    public void add(List<Product> item) {
+        values.addAll(item);
+    }
 
     public void remove(int position) {
         values.remove(position);
@@ -70,7 +72,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         });
 
-        holder.price.setText((int) values.get(position).getPrice());
+        holder.price.setText(Double.toString(values.get(position).getPrice()));
+        Picasso.with(holder.image.getContext()).load(values.get(position).getImageUrl()).into(holder.image);
     }
 
     @Override
@@ -87,40 +90,34 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         public TextView name;
         public TextView price;
+        public ImageView image;
         public View layout;
 
         public ViewHolder(View v) {
             super(v);
             layout = v;
-            name = (TextView) v.findViewById(R.id.name);
-            price = (TextView) v.findViewById(R.id.price);
         }
     }
 
     public class ViewHolderList extends ViewHolder {
-
-        public TextView name;
-        public TextView price;
-        public View layout;
 
         public ViewHolderList(View v) {
             super(v);
             layout = v;
             name = (TextView) v.findViewById(R.id.name);
             price = (TextView) v.findViewById(R.id.price);
+            image = (ImageView) v.findViewById(R.id.icon);
         }
     }
 
     public class ViewHolderGrid extends ViewHolder {
-        public TextView name;
-        public TextView price;
-        public View layout;
 
         public ViewHolderGrid(View v) {
             super(v);
             layout = v;
             name = (TextView) v.findViewById(R.id.name);
             price = (TextView) v.findViewById(R.id.price);
+            image = (ImageView) v.findViewById(R.id.icon);
         }
     }
 

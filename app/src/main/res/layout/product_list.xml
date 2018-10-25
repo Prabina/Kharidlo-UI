@@ -6,22 +6,21 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="8dp"
         android:contentDescription="TODO"
+        android:scaleType="fitCenter"
         android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/icon"
         android:ellipsize="marquee"
+        android:layout_below="@id/name"
         android:text="10000"
         android:textSize="14sp"
         android:singleLine="true" />
@@ -30,10 +29,8 @@
         android:id="@+id/name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/icon"
+        android:layout_alignWithParentIfMissing="true"
         android:gravity="center_vertical"
         android:text="Kindle"
         android:textSize="18sp" />
@@ -45,9 +42,8 @@
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
+        android:layout_marginRight="8dp"
         android:contentDescription="TODO"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_add_shopping_cart" />
-
 </RelativeLayout>

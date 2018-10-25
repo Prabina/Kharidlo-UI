@@ -1,13 +1,9 @@
 package com.ecommerce.kharidlo_ui.viewmodel;
-
-import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.ecommerce.kharidlo_ui.model.Product;
 import com.ecommerce.kharidlo_ui.remote.IProductSearchApi;
 import com.ecommerce.kharidlo_ui.remote.RetrofitManager;
-import com.ecommerce.kharidlo_ui.view.HomeActivity;
 import com.ecommerce.kharidlo_ui.view.fragments.HomeFragment;
 
 import java.util.List;
