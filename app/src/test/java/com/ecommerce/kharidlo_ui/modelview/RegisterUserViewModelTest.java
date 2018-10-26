@@ -1,14 +1,9 @@
 package com.ecommerce.kharidlo_ui.modelview;
 
 import com.ecommerce.kharidlo_ui.model.User;
+import com.ecommerce.kharidlo_ui.viewmodel.RegisterUserViewModel;
 
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.concurrent.Delayed;
-import java.util.concurrent.TimeUnit;
-
-import javax.security.auth.callback.Callback;
 
 import retrofit2.Call;
 import retrofit2.Response;

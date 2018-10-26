@@ -1,5 +1,7 @@
 package com.ecommerce.kharidlo_ui.modelview;
 
+import com.ecommerce.kharidlo_ui.viewmodel.LoginViewModel;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

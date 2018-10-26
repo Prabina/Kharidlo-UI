@@ -41,11 +41,6 @@ public class SharedPreferenceUtil {
         return  role.equals("admin");
     }
 
-    public static void setIfAdmin(boolean isAdmin) {
-        appPreference = appContext.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE);
-        editor.putBoolean(IS_ADMIN, isAdmin);
-    }
-
     public static String getTOKEN() {
         return TOKEN;
     }

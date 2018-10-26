@@ -5,11 +5,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitManager {
 
+    private static final String baseUrl = "https://silly-jellyfish-100.localtunnel.me";
     private static Retrofit retrofit = null;
-    private static final String baseUrl = "https://lovely-lion-21.localtunnel.me";
 
     public static Retrofit getClient() {
-        if (retrofit==null) {
+        if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())

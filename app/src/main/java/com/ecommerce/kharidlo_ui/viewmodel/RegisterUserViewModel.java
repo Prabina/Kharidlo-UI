@@ -1,4 +1,4 @@
-package com.ecommerce.kharidlo_ui.modelview;
+package com.ecommerce.kharidlo_ui.viewmodel;
 
 import com.ecommerce.kharidlo_ui.model.User;
 import com.ecommerce.kharidlo_ui.remote.IUserRegistrationApi;

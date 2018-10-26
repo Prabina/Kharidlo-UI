@@ -1,26 +1,21 @@
 package com.ecommerce.kharidlo_ui.view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.User;
-import com.ecommerce.kharidlo_ui.modelview.RegisterUserViewModel;
-import com.ecommerce.kharidlo_ui.remote.RetrofitManager;
+import com.ecommerce.kharidlo_ui.viewmodel.RegisterUserViewModel;
 
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class UserRegistration extends AppCompatActivity {
 

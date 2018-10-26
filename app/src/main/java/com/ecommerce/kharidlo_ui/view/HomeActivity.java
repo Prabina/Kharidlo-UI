@@ -1,6 +1,5 @@
 package com.ecommerce.kharidlo_ui.view;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -83,12 +82,14 @@ public class HomeActivity extends AppCompatActivity
         toast.show();
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void checkLoginState() {
         if(!SharedPreferenceUtil.isLoggedIn()) {
             Intent loginActivity = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(loginActivity);
+            finish();
         }
 
     }
@@ -107,6 +108,11 @@ public class HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+
+        if(SharedPreferenceUtil.isAdmin()) {
+            menu.findItem(R.id.action_cart).setVisible(false);
+        }
+
         return true;
     }
 

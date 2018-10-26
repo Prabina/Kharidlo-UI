@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.Product;
@@ -189,6 +190,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<Product> products) {
                 HomeFragment.this.productList = products;
+                if(products == null || (products != null && products.size() == 0)){
+                    Toast.makeText(getContext(), "Oops! No product found",Toast.LENGTH_SHORT).show();
+                }
                 productListAdapter.add(products);
                 productListAdapter.notifyDataSetChanged();
             }

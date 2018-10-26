@@ -1,28 +1,22 @@
 package com.ecommerce.kharidlo_ui.view;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.AuthenticationCredentials;
-import com.ecommerce.kharidlo_ui.modelview.LoginViewModel;
 import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
+import com.ecommerce.kharidlo_ui.viewmodel.LoginViewModel;
 import com.google.gson.internal.LinkedTreeMap;
 
 import retrofit2.Call;
@@ -87,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
                     Log.d(TAG, "onResponse: "+response.message());
-//                    System.out.print(response.message());
                     if (response.code() == 403 || response.code() == 404) {
                         Toast toast = Toast.makeText(getApplicationContext(), "Oops! Invalid username or password", Toast.LENGTH_SHORT);
                         toast.show();
@@ -120,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
     private void navigateToHomeScreen() {
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private boolean isEmailValid(String email) {
