@@ -43,9 +43,10 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        if(SharedPreferenceUtil.isAdmin()) {
-            navigationView.getMenu().findItem(R.id.nav_create_product).setVisible(true);
-        }
+
+        configureCreateProductMenu();
+
+
 
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.fragment_container, new HomeFragment());
@@ -53,6 +54,27 @@ public class HomeActivity extends AppCompatActivity
 
         checkLoginState();
 
+    }
+
+    private void configureCreateProductMenu() {
+
+        MenuItem nav_create_product = navigationView.getMenu().findItem(R.id.nav_create_product);
+
+        nav_create_product.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(HomeActivity.this, CreateProductActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        if(SharedPreferenceUtil.isAdmin()) {
+            nav_create_product.setVisible(true);
+        }
+        else {
+            nav_create_product.setVisible(false);
+        }
     }
 
     private void logoutUser() {

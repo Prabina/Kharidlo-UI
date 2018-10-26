@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.MainActivity"></activity>
         <activity
             android:name=".view.HomeActivity"
             android:label="@string/app_name"
@@ -25,7 +26,11 @@
         <activity
             android:name=".view.LoginActivity"
             android:label="@string/title_activity_login"></activity>
-        <activity android:name=".view.ProductDetailActivity"></activity>
+        <activity
+            android:name=".view.CreateProductActivity"
+            android:label="@string/title_activity_create_product"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

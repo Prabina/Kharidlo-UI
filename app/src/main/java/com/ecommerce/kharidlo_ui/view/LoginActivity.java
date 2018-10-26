@@ -79,13 +79,15 @@ public class LoginActivity extends AppCompatActivity {
         loginUser(email, password);
     }
 
+    private static final String TAG = "LoginActivity";
     private void loginUser(String email, String password) {
         AuthenticationCredentials authenticationCredentials = new AuthenticationCredentials(email, password);
         try{
             loginViewModel.login(authenticationCredentials, new Callback<Object>() {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
-                    System.out.print(response.message());
+                    Log.d(TAG, "onResponse: "+response.message());
+//                    System.out.print(response.message());
                     if (response.code() == 403 || response.code() == 404) {
                         Toast toast = Toast.makeText(getApplicationContext(), "Oops! Invalid username or password", Toast.LENGTH_SHORT);
                         toast.show();

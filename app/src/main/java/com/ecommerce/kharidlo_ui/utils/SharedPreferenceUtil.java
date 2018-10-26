@@ -14,6 +14,7 @@ public class SharedPreferenceUtil {
     private static final String APP_SETTINGS = "APP_SETTINGS";
     public static final String IS_LOGGED_IN = "IS_LOGGED_IN";
     public static final String IS_ADMIN = "IS_ADMIN";
+    public static final String USER_ROLE_KEY = "USER_ROLE_KEY";
 
 
     public static void setContext(Context context) {
@@ -35,8 +36,9 @@ public class SharedPreferenceUtil {
     }
 
     public static boolean isAdmin() {
-        //TODO: change boolean value to false
-        return appPreference.getBoolean(IS_ADMIN, false);
+        appPreference = appContext.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE);
+        String role = appPreference.getString(USER_ROLE_KEY, "user");
+        return  role.equals("admin");
     }
 
     public static void setIfAdmin(boolean isAdmin) {
@@ -58,6 +60,9 @@ public class SharedPreferenceUtil {
 
     public static void setUserRole(String userRole) {
         USER_ROLE = userRole;
+        appPreference = appContext.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE);
+        editor.putString(USER_ROLE_KEY, userRole);
+        editor.apply();
     }
 
     public static void clearUserData() {
