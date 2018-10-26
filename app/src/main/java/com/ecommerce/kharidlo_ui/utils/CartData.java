@@ -1,6 +1,5 @@
 package com.ecommerce.kharidlo_ui.utils;
 
-import com.ecommerce.kharidlo_ui.model.Cart;
 import com.ecommerce.kharidlo_ui.model.CartItem;
 
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.List;
 public class CartData {
     private List<CartItem> cartItems;
 
-    private static CartData cartDataInstance;
+    private static volatile CartData cartDataInstance;
 
     public static CartData getInstance() {
         if(cartDataInstance == null){

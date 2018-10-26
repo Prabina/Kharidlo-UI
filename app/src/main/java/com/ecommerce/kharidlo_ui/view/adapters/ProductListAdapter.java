@@ -17,7 +17,6 @@ import com.ecommerce.kharidlo_ui.model.CartItem;
 import com.ecommerce.kharidlo_ui.model.Product;
 import com.ecommerce.kharidlo_ui.utils.CartData;
 import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
-import com.ecommerce.kharidlo_ui.view.HomeActivity;
 import com.ecommerce.kharidlo_ui.view.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -94,8 +93,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 Product product = products.get(position);
                 CartItem cartItem = new CartItem(product.getId(), 1, product.getPrice());
                 cartData.addItemToCart(cartItem);
-                Toast toast = Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT).show();
             }
         });
 

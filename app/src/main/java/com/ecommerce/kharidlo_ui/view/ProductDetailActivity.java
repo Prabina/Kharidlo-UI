@@ -1,14 +1,17 @@
 package com.ecommerce.kharidlo_ui.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
+import com.ecommerce.kharidlo_ui.model.CartItem;
 import com.ecommerce.kharidlo_ui.model.Product;
+import com.ecommerce.kharidlo_ui.utils.CartData;
 import com.squareup.picasso.Picasso;
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -48,10 +51,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:
+                CartItem cartItem = new CartItem(product.getId(), 1, product.getPrice());
+                CartData.getInstance().addItemToCart(cartItem);
+                Toast.makeText(ProductDetailActivity.this, "Item added to cart successfully!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }
