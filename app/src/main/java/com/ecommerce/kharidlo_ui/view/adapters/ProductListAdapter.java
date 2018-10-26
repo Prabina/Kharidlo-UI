@@ -10,10 +10,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
+import com.ecommerce.kharidlo_ui.model.CartItem;
 import com.ecommerce.kharidlo_ui.model.Product;
+import com.ecommerce.kharidlo_ui.utils.CartData;
 import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
+import com.ecommerce.kharidlo_ui.view.HomeActivity;
 import com.ecommerce.kharidlo_ui.view.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -21,14 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
-    private List<Product> values = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
     private boolean isList;
     private Context context;
     private boolean isAdmin;
+    private CartData cartData = CartData.getInstance();
 
     public ProductListAdapter(List<Product> myDataset, boolean isList, Context context) {
         if(myDataset != null) {
-            values = myDataset;
+            products = myDataset;
         }
         this.isList = isList;
         this.context = context;
@@ -41,12 +46,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public void add(List<Product> item) {
         if(item != null) {
-            values = item;
+            products = item;
         }
     }
 
     public void remove(int position) {
-        values.remove(position);
+        products.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -81,24 +86,28 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.addToCart.setVisibility(View.INVISIBLE);
         }
 
-        final String name = values.get(position).getTitle();
+        final String name = products.get(position).getTitle();
         holder.name.setText(name);
-        holder.name.setOnClickListener(new OnClickListener() {
+        holder.addToCart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: add to cart action to be implemented
+                Product product = products.get(position);
+                CartItem cartItem = new CartItem(product.getId(), 1, product.getPrice());
+                cartData.addItemToCart(cartItem);
+                Toast toast = Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 
-        holder.price.setText(String.valueOf(values.get(position).getPrice()));
-        Picasso.with(holder.image.getContext()).load(values.get(position).getImageUrl()).into(holder.image);
+        holder.price.setText(String.valueOf(products.get(position).getPrice()));
+        Picasso.with(holder.image.getContext()).load(products.get(position).getImageUrl()).into(holder.image);
 
         holder.itemView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Ad", "clicked >> ");
                 Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("product", values.get(position));
+                intent.putExtra("product", products.get(position));
                 context.startActivity(intent);
             }
         });
@@ -111,7 +120,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public int getItemCount() {
-        return values.size();
+        return products.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

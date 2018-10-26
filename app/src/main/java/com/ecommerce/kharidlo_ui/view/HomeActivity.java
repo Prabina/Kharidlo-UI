@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
+import com.ecommerce.kharidlo_ui.utils.CartData;
 import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
 import com.ecommerce.kharidlo_ui.view.fragments.CreateProductFragment;
 import com.ecommerce.kharidlo_ui.view.fragments.HomeFragment;
@@ -25,6 +26,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener, CreateProductFragment.OnFragmentInteractionListener {
 
     private NavigationView navigationView;
+    public CartData cartData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.fragment_container, new HomeFragment());
         tx.commit();
+
+        this.cartData = CartData.getInstance();
 
         checkLoginState();
 
@@ -77,6 +81,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void logoutUser() {
+        this.cartData.emptyCart();
         SharedPreferenceUtil.clearUserData();
         Toast toast = Toast.makeText(getApplicationContext(), "You have been successfully logged out!", Toast.LENGTH_SHORT);
         toast.show();
@@ -91,7 +96,6 @@ public class HomeActivity extends AppCompatActivity
             startActivity(loginActivity);
             finish();
         }
-
     }
 
     @Override
@@ -118,17 +122,19 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_cart) {
+        if (item.getItemId() == R.id.action_cart) {
+            if (cartData.getCartItems().size() > 1) {
+                navigateToCartScreen();
+            }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void navigateToCartScreen() {
+        Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
