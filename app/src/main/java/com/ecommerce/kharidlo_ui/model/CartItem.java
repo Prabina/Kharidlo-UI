@@ -4,8 +4,10 @@ public class CartItem {
     private int productId;
     private int quantity;
     private double price;
+    private String title;
 
-    public CartItem(int productId, int quantity, double price) {
+    public CartItem(String title, int productId, int quantity, double price) {
+        this.title = title;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
@@ -33,6 +35,14 @@ public class CartItem {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
 //{

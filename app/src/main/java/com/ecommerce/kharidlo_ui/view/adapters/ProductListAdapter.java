@@ -17,7 +17,6 @@ import com.ecommerce.kharidlo_ui.model.CartItem;
 import com.ecommerce.kharidlo_ui.model.Product;
 import com.ecommerce.kharidlo_ui.utils.CartData;
 import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
-import com.ecommerce.kharidlo_ui.view.HomeActivity;
 import com.ecommerce.kharidlo_ui.view.ProductDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -92,7 +91,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             public void onClick(View v) {
                 Product product = products.get(position);
-                CartItem cartItem = new CartItem(product.getId(), 1, product.getPrice());
+                CartItem cartItem = new CartItem(product.getTitle(),product.getId(), 1, product.getPrice());
                 cartData.addItemToCart(cartItem);
                 Toast toast = Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT);
                 toast.show();
@@ -143,7 +142,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             super(v);
             layout = v;
             name = (TextView) v.findViewById(R.id.name);
-            price = (TextView) v.findViewById(R.id.price);
+            price = (TextView) v.findViewById(R.id.cart_item_price);
             image = (ImageView) v.findViewById(R.id.icon);
             addToCart = (ImageView) v.findViewById(R.id.add_to_cart);
         }
@@ -155,7 +154,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             super(v);
             layout = v;
             name = (TextView) v.findViewById(R.id.name);
-            price = (TextView) v.findViewById(R.id.price);
+            price = (TextView) v.findViewById(R.id.cart_item_price);
             image = (ImageView) v.findViewById(R.id.icon);
             addToCart = (ImageView) v.findViewById(R.id.add_to_cart);
         }
