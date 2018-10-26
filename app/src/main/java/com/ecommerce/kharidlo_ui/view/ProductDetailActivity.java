@@ -51,7 +51,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CartItem cartItem = new CartItem(product.getId(), 1, product.getPrice());
+                CartItem cartItem = new CartItem(product.getTitle(), product.getId(), 1, product.getPrice());
                 CartData.getInstance().addItemToCart(cartItem);
                 Toast.makeText(ProductDetailActivity.this, "Item added to cart successfully!", Toast.LENGTH_SHORT).show();
             }
