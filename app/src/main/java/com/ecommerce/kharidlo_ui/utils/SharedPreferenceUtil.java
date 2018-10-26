@@ -13,7 +13,6 @@ public class SharedPreferenceUtil {
 
     private static final String APP_SETTINGS = "APP_SETTINGS";
     public static final String IS_LOGGED_IN = "IS_LOGGED_IN";
-    public static final String IS_ADMIN = "IS_ADMIN";
     public static final String USER_ROLE_KEY = "USER_ROLE_KEY";
 
 
@@ -25,8 +24,7 @@ public class SharedPreferenceUtil {
 
 
     public static boolean isLoggedIn() {
-        //TODO: change boolean value to false
-        return appPreference.getBoolean(IS_LOGGED_IN, true);
+        return appPreference.getBoolean(IS_LOGGED_IN, false);
     }
 
     public static void setLoggedIn(boolean loginState) {

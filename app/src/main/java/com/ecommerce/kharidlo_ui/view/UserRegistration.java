@@ -66,7 +66,6 @@ public class UserRegistration extends AppCompatActivity {
             registerUserViewModel.register(user, new Callback<Integer>() {
                 @Override
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                    System.out.print(response.message());
                     Toast toast = Toast.makeText(getApplicationContext(), "User Registered Successfully!", Toast.LENGTH_SHORT);
                     toast.show();
                     navigateToLoginScreen();

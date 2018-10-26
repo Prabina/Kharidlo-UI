@@ -93,8 +93,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 Product product = products.get(position);
                 CartItem cartItem = new CartItem(product.getTitle(),product.getId(), 1, product.getPrice());
                 cartData.addItemToCart(cartItem);
-                Toast toast = Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT).show();
             }
         });
 
