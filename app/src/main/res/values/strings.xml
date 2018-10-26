@@ -29,6 +29,10 @@
     <string name="kharidlo">KharidLo</string>
     <string name="compare">Compare</string>
     <string name="title_activity_create_product">CreateProductActivity</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="features">Features</string>
+    <string name="add_to_cart">Add to cart</string>
 
     <string-array name="product_category">
         <item>Home Appliances</item>
