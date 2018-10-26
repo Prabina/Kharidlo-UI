@@ -123,7 +123,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_cart) {
-            if (cartData.getCartItems().size() > 1) {
+            if (cartData.getCartItems().size() > 0) {
                 navigateToCartScreen();
             }
             return true;

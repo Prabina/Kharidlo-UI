@@ -10,9 +10,16 @@ import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.Cart;
 import com.ecommerce.kharidlo_ui.model.CartItem;
 import com.ecommerce.kharidlo_ui.utils.CartData;
+import com.ecommerce.kharidlo_ui.viewmodel.CheckoutCartViewModel;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CheckoutActivity extends AppCompatActivity {
     private EditText fullNameView;
@@ -21,6 +28,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private RadioButton paymentOptionView;
     private EditText emailIdView;
     private CartData cartData = CartData.getInstance();
+    private CheckoutCartViewModel checkoutCartViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,7 @@ public class CheckoutActivity extends AppCompatActivity {
         addressView = (EditText) findViewById(R.id.address);
         paymentOptionView = (RadioButton) findViewById(R.id.radioCOD);
         emailIdView = (EditText) findViewById(R.id.enailId);
+        checkoutCartViewModel = new CheckoutCartViewModel();
 
         fullNameView.setError(null);
         phoneNumberView.setError(null);
@@ -57,7 +66,17 @@ public class CheckoutActivity extends AppCompatActivity {
         String json = gson.toJson(cart);
         System.out.println(json);
         //TODO: Integrate checkout cart API
-        
+        checkoutCartViewModel.checkoutCart(null, cart, new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                System.out.print(response);
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                System.out.print("ERROR");
+            }
+        });
     }
 
     private double calculateTotalPrice(List<CartItem> cartItems) {
