@@ -1,17 +1,21 @@
 package com.ecommerce.kharidlo_ui.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.ecommerce.kharidlo_ui.R;
 import com.ecommerce.kharidlo_ui.model.Cart;
 import com.ecommerce.kharidlo_ui.model.CartItem;
 import com.ecommerce.kharidlo_ui.utils.CartData;
+import com.ecommerce.kharidlo_ui.utils.SharedPreferenceUtil;
 import com.ecommerce.kharidlo_ui.viewmodel.CheckoutCartViewModel;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import org.json.JSONObject;
 
@@ -62,18 +66,31 @@ public class CheckoutActivity extends AppCompatActivity {
         double totalPrice = calculateTotalPrice(cartItems);
 
         Cart cart = new Cart(emailId, fullName, totalPrice, address, cartItems);
-        Gson gson = new Gson();
-        String json = gson.toJson(cart);
-        System.out.println(json);
-        //TODO: Integrate checkout cart API
-        checkoutCartViewModel.checkoutCart(null, cart, new Callback<JSONObject>() {
+        String token = SharedPreferenceUtil.getTOKEN();
+        checkoutCartViewModel.checkoutCart(token, cart, new Callback<Object>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                System.out.print(response);
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.code() == 403) {
+                    cartData.emptyCart();
+                    SharedPreferenceUtil.clearUserData();
+                    Toast toast = Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent = new Intent(CheckoutActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } else if (response.code() == 201) {
+                    cartData.emptyCart();
+                    Toast toast = Toast.makeText(getApplicationContext(), (String)((LinkedTreeMap) response.body()).get("successMessage"), Toast.LENGTH_SHORT);
+                    toast.show();
+                    Intent intent = new Intent(CheckoutActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Something has gone wrong. Please contact admin!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
                 System.out.print("ERROR");
             }
         });

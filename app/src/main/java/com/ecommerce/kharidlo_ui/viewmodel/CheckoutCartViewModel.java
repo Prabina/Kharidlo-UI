@@ -20,9 +20,9 @@ public class CheckoutCartViewModel {
         iCheckoutCartApi = retrofit.create(ICheckoutCartApi.class);
     }
 
-    public void checkoutCart(String token, Cart cart, Callback<JSONObject> callback) {
+    public void checkoutCart(String token, Cart cart, Callback<Object> callback) {
 
-        Call<JSONObject> response = iCheckoutCartApi.checkoutCart(token, cart);
+        Call<Object> response = iCheckoutCartApi.checkoutCart(token, cart);
         response.enqueue(callback);
 
     }
